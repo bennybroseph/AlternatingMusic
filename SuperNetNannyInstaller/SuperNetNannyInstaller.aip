@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT Type="Advanced Installer" CreateVersion="14.2" version="14.2" Modules="simple" RootPath="." Language="en" Id="{59A8E792-23D6-4840-95DA-E7DFA8B6CF54}">
+  <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
+    <ROW Name="HiddenItems" Value="AppXAppDetailsComponent;AppXCapabilitiesComponent;AppXDependenciesComponent;AppXProductDetailsComponent;AppXVisualAssetsComponent;AppXAppDeclarationsComponent;AppXUriRulesComponent"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
+    <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
+    <ROW Property="ALLUSERS" Value="1" MultiBuildValue="DefaultBuild:2"/>
+    <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
+    <ROW Property="ARPNOMODIFY" MultiBuildValue="DefaultBuild:1"/>
+    <ROW Property="ARPPRODUCTICON" Value="unnamed_Vat_icon.exe" Type="8"/>
+    <ROW Property="Manufacturer" Value="iG Rech"/>
+    <ROW Property="ProductCode" Value="1033:{D584ACE7-39EC-4805-B3DF-D08C70F99B29} " Type="16"/>
+    <ROW Property="ProductLanguage" Value="1033"/>
+    <ROW Property="ProductName" Value="Super Net Nanny"/>
+    <ROW Property="ProductVersion" Value="1.0.0" Type="32"/>
+    <ROW Property="REBOOT" MultiBuildValue="DefaultBuild:ReallySuppress"/>
+    <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
+    <ROW Property="UpgradeCode" Value="{7756D699-EB30-43C2-9338-7DABCE3BBFD5}"/>
+    <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsType9XDisplay" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40" MultiBuildValue="DefaultBuild:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40Display" MultiBuildValue="DefaultBuild:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50" MultiBuildValue="DefaultBuild:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT50Display" MultiBuildValue="DefaultBuild:Windows 2000" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5X" MultiBuildValue="DefaultBuild:Windows XP/2003 RTM, Windows XP/2003 SP1, Windows XP SP2 x86" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT5XDisplay" MultiBuildValue="DefaultBuild:Windows XP/2003 RTM, Windows XP/2003 SP1, Windows XP SP2 x86" ValueLocId="-"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
+    <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
+    <ROW Directory="Content_Dir" Directory_Parent="SuperNetNanny_Dir" DefaultDir="Content"/>
+    <ROW Directory="Images_Dir" Directory_Parent="Content_Dir" DefaultDir="Images"/>
+    <ROW Directory="Music_Dir" Directory_Parent="Content_Dir" DefaultDir="Music"/>
+    <ROW Directory="StartupFolder" Directory_Parent="TARGETDIR" DefaultDir="STARTU~1|StartupFolder" IsPseudoRoot="1"/>
+    <ROW Directory="SuperNetNanny_Dir" Directory_Parent="APPDIR" DefaultDir="SUPERN~1|SuperNetNanny"/>
+    <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
+    <ROW Directory="Updater_Dir" Directory_Parent="APPDIR" DefaultDir="Updater"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
+    <ROW Component="AudioSwitcher.AudioApi.CoreAudio.dll" ComponentId="{0C21BD34-1E08-44FD-8C23-FF75DC509554}" Directory_="SuperNetNanny_Dir" Attributes="0" KeyPath="AudioSwitcher.AudioApi.CoreAudio.dll"/>
+    <ROW Component="AudioSwitcher.AudioApi.dll" ComponentId="{AA655570-6F08-4640-8083-0A99E6AA0535}" Directory_="SuperNetNanny_Dir" Attributes="0" KeyPath="AudioSwitcher.AudioApi.dll"/>
+    <ROW Component="DontStopMeNow.exe" ComponentId="{52E0CC86-5D7A-49D1-AAB6-CC41E0BD4E96}" Directory_="Updater_Dir" Attributes="0" KeyPath="DontStopMeNow.exe"/>
+    <ROW Component="DontStopMeNow.exe.config" ComponentId="{FFCA0FFC-A984-4C55-B095-184A14D522F8}" Directory_="Updater_Dir" Attributes="0" KeyPath="DontStopMeNow.exe.config" Type="0"/>
+    <ROW Component="LastSurprise.wav" ComponentId="{6B3FDBE9-5697-419E-BD2C-588E693AC7BA}" Directory_="Music_Dir" Attributes="0" KeyPath="LastSurprise.wav" Type="0"/>
+    <ROW Component="Microsoft.Toolkit.Uwp.Notifications.dl_1" ComponentId="{A7DA5909-F138-4B97-B638-F875A0BFD08E}" Directory_="Updater_Dir" Attributes="0" KeyPath="Microsoft.Toolkit.Uwp.Notifications.dll_1"/>
+    <ROW Component="ProductInformation" ComponentId="{E2BB1B2D-281C-43FA-AE15-B7F7C545F230}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
+    <ROW Component="SuperNetNanny.exe" ComponentId="{47A39616-4953-42FC-A197-81019AB136A1}" Directory_="SuperNetNanny_Dir" Attributes="0" KeyPath="SuperNetNanny.exe"/>
+    <ROW Component="SuperNetNanny.exe.config" ComponentId="{0BE9E70C-FFB2-4A3F-85DF-E55D04A3CEEF}" Directory_="SuperNetNanny_Dir" Attributes="0" KeyPath="SuperNetNanny.exe.config" Type="0"/>
+    <ROW Component="unnamed_Vat_icon.ico" ComponentId="{C00319A8-BB51-41D4-96A1-136701621D18}" Directory_="Images_Dir" Attributes="0" KeyPath="unnamed_Vat_icon.ico" Type="0"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="AudioSwitcher.AudioApi.CoreAudio.dll AudioSwitcher.AudioApi.dll DontStopMeNow.exe DontStopMeNow.exe.config LastSurprise.wav Microsoft.Toolkit.Uwp.Notifications.dl_1 ProductInformation SuperNetNanny.exe SuperNetNanny.exe.config unnamed_Vat_icon.ico"/>
+    <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
+    <ROW File="AudioSwitcher.AudioApi.CoreAudio.dll" Component_="AudioSwitcher.AudioApi.CoreAudio.dll" FileName="AUDIOS~1.DLL|AudioSwitcher.AudioApi.CoreAudio.dll" Attributes="0" SourcePath="..\bin\Release\SuperNetNanny\AudioSwitcher.AudioApi.CoreAudio.dll" SelfReg="false" NextFile="AudioSwitcher.AudioApi.dll"/>
+    <ROW File="AudioSwitcher.AudioApi.dll" Component_="AudioSwitcher.AudioApi.dll" FileName="AUDIOS~2.DLL|AudioSwitcher.AudioApi.dll" Attributes="0" SourcePath="..\bin\Release\SuperNetNanny\AudioSwitcher.AudioApi.dll" SelfReg="false" NextFile="unnamed_Vat_icon.ico"/>
+    <ROW File="DontStopMeNow.exe" Component_="DontStopMeNow.exe" FileName="DONTST~1.EXE|DontStopMeNow.exe" Attributes="0" SourcePath="..\bin\Release\Updater\DontStopMeNow.exe" SelfReg="false" NextFile="DontStopMeNow.exe.config" DigSign="true"/>
+    <ROW File="DontStopMeNow.exe.config" Component_="DontStopMeNow.exe.config" FileName="DONTST~1.CON|DontStopMeNow.exe.config" Attributes="0" SourcePath="..\bin\Release\Updater\DontStopMeNow.exe.config" SelfReg="false" NextFile="DontStopMeNow.pdb"/>
+    <ROW File="DontStopMeNow.pdb" Component_="DontStopMeNow.exe" FileName="DONTST~1.PDB|DontStopMeNow.pdb" Attributes="0" SourcePath="..\bin\Release\Updater\DontStopMeNow.pdb" SelfReg="false" NextFile="AudioSwitcher.AudioApi.CoreAudio.dll"/>
+    <ROW File="LastSurprise.wav" Component_="LastSurprise.wav" FileName="LASTSU~1.WAV|LastSurprise.wav" Attributes="0" SourcePath="..\bin\Release\SuperNetNanny\Content\Music\LastSurprise.wav" SelfReg="false" NextFile="WhatsNewPussycat.wav"/>
+    <ROW File="Microsoft.Toolkit.Uwp.Notifications.dll_1" Component_="Microsoft.Toolkit.Uwp.Notifications.dl_1" FileName="MICROS~1.DLL|Microsoft.Toolkit.Uwp.Notifications.dll" Attributes="0" SourcePath="..\bin\Release\Updater\Microsoft.Toolkit.Uwp.Notifications.dll" SelfReg="false" NextFile="Microsoft.Toolkit.Uwp.Notifications.pdb_1"/>
+    <ROW File="Microsoft.Toolkit.Uwp.Notifications.pdb_1" Component_="Microsoft.Toolkit.Uwp.Notifications.dl_1" FileName="MICROS~1.PDB|Microsoft.Toolkit.Uwp.Notifications.pdb" Attributes="0" SourcePath="..\bin\Release\Updater\Microsoft.Toolkit.Uwp.Notifications.pdb" SelfReg="false" NextFile="Microsoft.Toolkit.Uwp.Notifications.xml_1"/>
+    <ROW File="Microsoft.Toolkit.Uwp.Notifications.xml_1" Component_="DontStopMeNow.exe.config" FileName="MICROS~1.XML|Microsoft.Toolkit.Uwp.Notifications.xml" Attributes="0" SourcePath="..\bin\Release\Updater\Microsoft.Toolkit.Uwp.Notifications.xml" SelfReg="false"/>
+    <ROW File="SuperNetNanny.exe" Component_="SuperNetNanny.exe" FileName="SUPERN~1.EXE|SuperNetNanny.exe" Attributes="0" SourcePath="..\bin\Release\SuperNetNanny\SuperNetNanny.exe" SelfReg="false" NextFile="SuperNetNanny.exe.config" DigSign="true"/>
+    <ROW File="SuperNetNanny.exe.config" Component_="SuperNetNanny.exe.config" FileName="SUPERN~1.CON|SuperNetNanny.exe.config" Attributes="0" SourcePath="..\bin\Release\SuperNetNanny\SuperNetNanny.exe.config" SelfReg="false" NextFile="SuperNetNanny.pdb"/>
+    <ROW File="SuperNetNanny.pdb" Component_="SuperNetNanny.exe" FileName="SUPERN~1.PDB|SuperNetNanny.pdb" Attributes="0" SourcePath="..\bin\Release\SuperNetNanny\SuperNetNanny.pdb" SelfReg="false" NextFile="version.txt"/>
+    <ROW File="WhatsNewPussycat.wav" Component_="LastSurprise.wav" FileName="WHATSN~1.WAV|WhatsNewPussycat.wav" Attributes="0" SourcePath="..\bin\Release\SuperNetNanny\Content\Music\WhatsNewPussycat.wav" SelfReg="false" NextFile="WhoaWhoaWhoaWhoa.wav"/>
+    <ROW File="WhoaWhoaWhoaWhoa.wav" Component_="LastSurprise.wav" FileName="WHOAWH~1.WAV|WhoaWhoaWhoaWhoa.wav" Attributes="0" SourcePath="..\bin\Release\SuperNetNanny\Content\Music\WhoaWhoaWhoaWhoa.wav" SelfReg="false" NextFile="SuperNetNanny.exe"/>
+    <ROW File="unnamed_Vat_icon.ico" Component_="unnamed_Vat_icon.ico" FileName="UNNAME~1.ICO|unnamed_Vat_icon.ico" Attributes="0" SourcePath="..\bin\Release\SuperNetNanny\Content\Images\unnamed_Vat_icon.ico" SelfReg="false" NextFile="LastSurprise.wav"/>
+    <ROW File="version.txt" Component_="SuperNetNanny.exe.config" FileName="version.txt" Attributes="0" SourcePath="..\bin\Release\SuperNetNanny\version.txt" SelfReg="false" NextFile="Microsoft.Toolkit.Uwp.Notifications.dll_1"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="..\bin\Release" Languages="en" InstallationType="4" UseLargeSchema="true"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;ui_en.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
+    <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>
+    <ROW Fragment="FolderDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\FolderDlg.aip"/>
+    <ROW Fragment="MaintenanceTypeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\MaintenanceTypeDlg.aip"/>
+    <ROW Fragment="MaintenanceWelcomeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\MaintenanceWelcomeDlg.aip"/>
+    <ROW Fragment="SequenceDialogs.aip" Path="&lt;AI_THEMES&gt;classic\fragments\SequenceDialogs.aip"/>
+    <ROW Fragment="Sequences.aip" Path="&lt;AI_FRAGS&gt;Sequences.aip"/>
+    <ROW Fragment="StaticUIStrings.aip" Path="&lt;AI_FRAGS&gt;StaticUIStrings.aip"/>
+    <ROW Fragment="UI.aip" Path="&lt;AI_THEMES&gt;classic\fragments\UI.aip"/>
+    <ROW Fragment="Validation.aip" Path="&lt;AI_FRAGS&gt;Validation.aip"/>
+    <ROW Fragment="VerifyRemoveDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\VerifyRemoveDlg.aip"/>
+    <ROW Fragment="VerifyRepairDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\VerifyRepairDlg.aip"/>
+    <ROW Fragment="WelcomeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\WelcomeDlg.aip"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
+    <ROW Name="aicustact.dll" SourcePath="&lt;AI_CUSTACTS&gt;aicustact.dll"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">
+    <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="FolderDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_INSTALL" Ordering="201"/>
+    <ROW Dialog_="FolderDlg" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="MaintenanceWelcomeDlg" Control_="Next" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="99"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_MAINT" Ordering="198"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="CustomizeDlg" Condition="AI_MAINT" Ordering="202"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_INSTALL" Ordering="197"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="201"/>
+    <ROW Dialog_="CustomizeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_MAINT" Ordering="101"/>
+    <ROW Dialog_="CustomizeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="1"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="ChangeButton" Event="NewDialog" Argument="CustomizeDlg" Condition="AI_MAINT" Ordering="501"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceWelcomeDlg" Condition="AI_MAINT" Ordering="1"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="RemoveButton" Event="NewDialog" Argument="VerifyRemoveDlg" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="601"/>
+    <ROW Dialog_="VerifyRemoveDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="1"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="RepairButton" Event="NewDialog" Argument="VerifyRepairDlg" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="601"/>
+    <ROW Dialog_="VerifyRepairDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="1"/>
+    <ROW Dialog_="VerifyRepairDlg" Control_="Repair" Event="EndDialog" Argument="Return" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="399" Options="1"/>
+    <ROW Dialog_="VerifyRemoveDlg" Control_="Remove" Event="EndDialog" Argument="Return" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="299" Options="1"/>
+    <ROW Dialog_="PatchWelcomeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_PATCH" Ordering="201"/>
+    <ROW Dialog_="ResumeDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_RESUME" Ordering="299"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_PATCH" Ordering="199"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="PatchWelcomeDlg" Condition="AI_PATCH" Ordering="203"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
+    <ROW Action="AI_DOWNGRADE" Type="19" Target="4010"/>
+    <ROW Action="AI_DpiContentScale" Type="1" Source="aicustact.dll" Target="DpiContentScale"/>
+    <ROW Action="AI_EnableDebugLog" Type="321" Source="aicustact.dll" Target="EnableDebugLog"/>
+    <ROW Action="AI_InstallModeCheck" Type="1" Source="aicustact.dll" Target="UpdateInstallMode" WithoutSeq="true"/>
+    <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
+    <ROW Action="AI_RESTORE_LOCATION" Type="65" Source="aicustact.dll" Target="RestoreLocation"/>
+    <ROW Action="AI_ResolveKnownFolders" Type="1" Source="aicustact.dll" Target="AI_ResolveKnownFolders"/>
+    <ROW Action="AI_SETMIXINSTLOCATION" Type="1" Source="aicustact.dll" Target="MixedAllUsersInstallLocation"/>
+    <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
+    <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
+    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[AI_UserProgramFiles][Manufacturer]\[ProductName]"/>
+    <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
+    <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
+    <ROW Name="unnamed_Vat_icon.exe" SourcePath="..\Content\Images\unnamed_Vat_icon.ico" Index="0"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
+    <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
+    <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1501"/>
+    <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1399"/>
+    <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
+    <ROW Action="AI_EnableDebugLog" Sequence="51"/>
+    <ROW Action="AI_SETMIXINSTLOCATION" Sequence="748"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
+    <ROW Action="AI_ResolveKnownFolders" Sequence="53"/>
+    <ROW Action="AI_DpiContentScale" Sequence="52"/>
+    <ROW Action="AI_EnableDebugLog" Sequence="51"/>
+    <ROW Action="AI_SETMIXINSTLOCATION" Sequence="748"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
+    <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] cannot be installed on [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] cannot be installed on [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="(VersionNT64 OR ((VersionNT &lt;&gt; 501) OR (ServicePackLevel = 3))) AND ((VersionNT &lt;&gt; 502) OR (ServicePackLevel = 2))" Description="[ProductName] cannot be installed on [WindowsTypeNT5XDisplay]." DescriptionLocId="AI.LaunchCondition.NoNT5X" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiRegsComponent">
+    <ROW Registry="Path" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Path" Value="[APPDIR]" Component_="ProductInformation"/>
+    <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
+    <ROW Shortcut="SNN" Directory_="StartupFolder" Name="SNN" Component_="ProductInformation" Target="[APPDIR]\AlternatingMusic.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
+    <ATTRIBUTE name="UsedTheme" value="classic"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiUpgradeComponent">
+    <ROW UpgradeCode="[|UpgradeCode]" VersionMin="0.0.1" VersionMax="[|ProductVersion]" Attributes="257" ActionProperty="OLDPRODUCTS"/>
+    <ROW UpgradeCode="[|UpgradeCode]" VersionMin="[|ProductVersion]" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
+  </COMPONENT>
+</DOCUMENT>
