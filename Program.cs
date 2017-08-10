@@ -1,22 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using SuperLibrary;
+using System;
 using System.Windows.Forms;
 
-namespace AlternatingMusic
+namespace SuperNetNanny
 {
-    internal static class Program
+    public static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        private static ReopenThread s_ReopenThread =
+            new ReopenThread("DontStopMeNow", "..\\Updater\\DontStopMeNow.exe");
+
         [STAThread]
         private static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+#if !DEBUG
+            try
+            {
+#endif
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run(new Form1());
+                s_ReopenThread.StartThread();
+
+                var mainForm = new MainForm();
+                Application.Run(mainForm);
+#if !DEBUG
+            }
+            catch (Exception exception)
+            {
+                ErrorHandling.HandleException(exception);
+            }
+#endif
         }
+
+
     }
 }
