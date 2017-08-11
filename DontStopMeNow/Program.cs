@@ -6,12 +6,12 @@ namespace DontStopMeNow
 {
     internal static class Program
     {
-        private const string VERSION_PATH =
+        private const string VERSION_URL =
             "https://docs.google.com/document/d/" +
             "1OkI9zSX4r-0u5AQTtChFz1enFLClXgo4WUiY-0FOOlA/export?format=txt";
 
-        private const string ZIP_PATH =
-            "https://drive.google.com/uc?authuser=0&id=0B1p5QkI3_RgGbnBwR2Q0RDVCTWc&export=download";
+        private const string ZIP_URL =
+            "https://dl.dropboxusercontent.com/s/enuddmd2m1eopgs/SuperNetNanny.zip?dl=0";
 
         private static ReopenThread m_ReopenThread =
             new ReopenThread("SuperNetNanny", "..\\SuperNetNanny\\SuperNetNanny.exe");
@@ -19,8 +19,8 @@ namespace DontStopMeNow
         private static UpdaterThread m_UpdaterThread =
             new UpdaterThread(
                 m_ReopenThread,
-                VERSION_PATH,
-                ZIP_PATH,
+                VERSION_URL,
+                ZIP_URL,
                 "..\\SuperNetNanny\\version.txt",
                 "..\\SuperNetNanny\\");
 
@@ -29,9 +29,10 @@ namespace DontStopMeNow
 #if !DEBUG
             try
             {
+                ConsoleCommands.HideConsole();
 #endif
-                m_ReopenThread.StartThread();
-                m_UpdaterThread.StartThread();
+            m_ReopenThread.StartThread();
+            m_UpdaterThread.StartThread();
 #if !DEBUG
             }
             catch (Exception exception)

@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Threading;
 
 namespace SuperLibrary
@@ -8,14 +10,14 @@ namespace SuperLibrary
         private string m_ProcessName;
         private string m_ExecutablePath;
 
-        private bool m_AllowReopen = true;
+        private volatile bool m_AllowReopen = true;
 
         public bool allowReopen { get => m_AllowReopen; set => m_AllowReopen = value; }
 
         public ReopenThread(string processName, string executablePath, int loopDelay = 500)
         {
             m_ProcessName = processName;
-            m_ExecutablePath = executablePath;
+            m_ExecutablePath = Path.Combine(APP_PATH, executablePath);
 
             m_LoopDelay = loopDelay;
         }

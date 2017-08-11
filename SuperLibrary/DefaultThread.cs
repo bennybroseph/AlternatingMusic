@@ -1,10 +1,15 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Threading;
 
 namespace SuperLibrary
 {
     public abstract class DefaultThread
     {
+        public static readonly string APP_PATH =
+            Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
         private static bool s_EmergencyAbort;
 
         protected Thread m_Thread;
@@ -32,8 +37,10 @@ namespace SuperLibrary
             try
             {
 #endif
-            while (m_Run && !s_EmergencyAbort)
-                UpdateLoop();
+                while (m_Run && !s_EmergencyAbort)
+                    UpdateLoop();
+
+                OnExitLoop();
 #if !DEBUG
             }
             catch (Exception exception)
@@ -44,5 +51,7 @@ namespace SuperLibrary
         }
 
         protected abstract void UpdateLoop();
+
+        protected virtual void OnExitLoop() { }
     }
 }

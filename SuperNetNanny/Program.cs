@@ -15,14 +15,15 @@ namespace SuperNetNanny
 #if !DEBUG
             try
             {
+                ConsoleCommands.HideConsole();
 #endif
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
-                s_ReopenThread.StartThread();
+            s_ReopenThread.StartThread();
 
-                var mainForm = new MainForm();
-                Application.Run(mainForm);
+            var mainForm = new MainForm();
+            Application.Run(mainForm);
 #if !DEBUG
             }
             catch (Exception exception)
@@ -31,7 +32,5 @@ namespace SuperNetNanny
             }
 #endif
         }
-
-
     }
 }
