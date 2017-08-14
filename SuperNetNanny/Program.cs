@@ -16,11 +16,11 @@ namespace SuperNetNanny
             try
             {
                 ConsoleCommands.HideConsole();
+
+                s_ReopenThread.StartThread();
 #endif
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            s_ReopenThread.StartThread();
 
             var mainForm = new MainForm();
             Application.Run(mainForm);

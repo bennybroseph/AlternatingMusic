@@ -11,21 +11,27 @@ using SuperLibrary;
 
 namespace SuperNetNanny
 {
+    using FMOD;
+
     public class MusicThread : DefaultThread
     {
         private const int MAX_VOLUME = 30;
 
         private const string PREFERENCES_PATH = "preferences.txt";
 
-        private readonly CoreAudioController m_CoreAudioController = new CoreAudioController();
+        private CoreAudioController m_CoreAudioController;
 
         private MainForm m_MainForm;
 
-        private SoundPlayer m_PlayerA;
-        private SoundPlayer m_PlayerB;
+        private Channel m_Channel;
 
-        private SoundPlayer m_PlayerRickRoll;
-        private SoundPlayer m_PlayerInception;
+        private Sound m_SoundA;
+        private Sound m_SoundB;
+
+        private Sound m_SoundSomebody;
+
+        private Sound m_SoundRickRoll;
+        private Sound m_SoundInception;
 
         private bool m_ShowStopImage;
         private bool m_RickRolled;
@@ -43,13 +49,18 @@ namespace SuperNetNanny
         public int randomSeed
         {
             get => m_RandomSeed;
-            set { m_RandomSeed = value; m_Random = new Random(m_RandomSeed); }
+            set { m_RandomSeed = value; SetRandom(); }
         }
 
-        public MusicThread(MainForm mainForm)
+        public MusicThread(MainForm mainForm, int loopDelay = 66)
         {
             m_MainForm = mainForm;
 
+            m_LoopDelay = loopDelay;
+        }
+
+        protected override void OnStartLoop()
+        {
             var completePreferencesPath = Path.Combine(APP_PATH, PREFERENCES_PATH);
             if (File.Exists(completePreferencesPath))
             {
@@ -57,38 +68,42 @@ namespace SuperNetNanny
                 {
                     m_Type = int.Parse(reader.ReadLine());
                     m_RandomSeed = int.Parse(reader.ReadLine());
-                    m_Random = new Random(m_RandomSeed);
+                    SetRandom();
                 }
             }
             else
             {
                 m_RandomSeed = 0;
-                m_Random = new Random(m_RandomSeed);
+                SetRandom();
 
                 m_Type = m_Random.Next(0, 2);
             }
 
+            m_CoreAudioController = new CoreAudioController();
+
+            Audio.Init();
+
             var musicPath = Path.Combine(APP_PATH, "Content\\Music\\");
 
             var soundPathA = musicPath + "WhatsNewPussycat.wav";
-            m_PlayerA = new SoundPlayer { SoundLocation = soundPathA };
-
-            m_PlayerA.Load();
+            Audio.LoadSound(soundPathA, out m_SoundA);
 
             var soundPathB = musicPath + "WhoaWhoaWhoaWhoa.wav";
-            m_PlayerB = new SoundPlayer { SoundLocation = soundPathB };
+            Audio.LoadSound(soundPathB, out m_SoundB);
 
-            m_PlayerB.Load();
+            var soundPathSomebody = musicPath + "Somebody.wav";
+            Audio.LoadSound(soundPathSomebody, out m_SoundSomebody);
 
             var soundPathRickRoll = musicPath + "NeverGunnaGiveYouUp.wav";
-            m_PlayerRickRoll = new SoundPlayer { SoundLocation = soundPathRickRoll };
-
-            m_PlayerRickRoll.Load();
+            Audio.LoadSound(soundPathRickRoll, out m_SoundRickRoll);
 
             var soundPathInception = musicPath + "Inception.wav";
-            m_PlayerInception = new SoundPlayer { SoundLocation = soundPathInception };
+            Audio.LoadSound(soundPathInception, out m_SoundInception);
 
-            m_PlayerInception.Load();
+            Audio.LoadChannel(m_SoundInception, out m_Channel);
+
+            // Wait for form to load...?
+            Thread.Sleep(1000);
         }
 
         [DllImport("user32.dll")]
@@ -109,7 +124,6 @@ namespace SuperNetNanny
             if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday ||
                 DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
                 return;
-
 
             // Confirm it's during camp hours
             if (DateTime.Now.Hour >= 9 && DateTime.Now.Hour <= 17)
@@ -145,29 +159,31 @@ namespace SuperNetNanny
 
                         SendKeys.SendWait("{F11}");
 
-                        m_CoreAudioController.DefaultPlaybackDevice.Mute(false);
-                        m_CoreAudioController.DefaultPlaybackDevice.Volume = MAX_VOLUME;
+                        SetVolume();
 
-                        m_PlayerRickRoll.PlayLooping();
+                        m_Channel.setPitch(1f);
+                        Audio.PlaySound(ref m_Channel, m_SoundRickRoll);
 
                         m_RickRolled = true;
                     }
                 }
                 else if (DateTime.Now >= m_StartTime.Add(m_RandomDelay))
                 {
-                    m_CoreAudioController.DefaultPlaybackDevice.Mute(false);
-                    m_CoreAudioController.DefaultPlaybackDevice.Volume = MAX_VOLUME;
+                    SetVolume();
 
-                    if (m_Type == 0)
-                        m_PlayerA.PlaySync();
-                    if (m_Type == 1)
-                        m_PlayerB.PlaySync();
+                    //if (m_Type == 0)
+                    //    Audio.PlaySound(ref m_Channel, m_SoundA, MODE.DEFAULT, 0);
+                    //if (m_Type == 1)
+                    //    Audio.PlaySound(ref m_Channel, m_SoundB, MODE.DEFAULT, 0);
+
+                    Audio.PlaySound(ref m_Channel, m_SoundSomebody, MODE.DEFAULT, 0);
+                    m_Channel.setPitch(NextFloat(0.5f, 1.5f));
 
                     ResetTimer();
                 }
                 else if (m_RickRolled)
                 {
-                    m_PlayerRickRoll.Stop();
+                    Audio.Stop(m_Channel);
 
                     m_RickRolled = false;
                 }
@@ -186,19 +202,21 @@ namespace SuperNetNanny
 
                     SendKeys.SendWait("{F11}");
 
-                    m_CoreAudioController.DefaultPlaybackDevice.Mute(false);
-                    m_CoreAudioController.DefaultPlaybackDevice.Volume = MAX_VOLUME;
+                    SetVolume();
 
-                    m_PlayerInception.PlaySync();
+                    m_Channel.setPitch(1f);
+                    Audio.PlaySound(ref m_Channel, m_SoundInception, MODE.DEFAULT, 0);
 
                     m_ShowStopImage = true;
                 }
             }
+
+            Thread.Sleep(m_LoopDelay);
         }
 
         protected override void OnExitLoop()
         {
-            m_PlayerRickRoll.Stop();
+            Audio.Stop(m_Channel);
 
             using (var writer = new StreamWriter(PREFERENCES_PATH, false))
             {
@@ -207,14 +225,43 @@ namespace SuperNetNanny
             }
         }
 
+        private void SetVolume()
+        {
+            m_CoreAudioController.DefaultPlaybackDevice.Mute(false);
+
+            if (m_CoreAudioController.DefaultPlaybackDevice.Volume < MAX_VOLUME)
+                m_CoreAudioController.DefaultPlaybackDevice.Volume = MAX_VOLUME;
+        }
+
         private void ResetTimer()
         {
+#if !DEBUG
             var randomSeconds = m_Random.Next(0, 60);
-            var randomMinutes = m_Random.Next(0, 45);
+            var randomMinutes = m_Random.Next(0, 60);
 
-            m_RandomDelay = new TimeSpan(0, 1, randomMinutes, randomSeconds);
+            m_RandomDelay = new TimeSpan(0, 0, 60 + randomMinutes, randomSeconds);
+#else
+            var randomSeconds = m_Random.Next(0, 5);
+
+            m_RandomDelay = new TimeSpan(0, 0, 0, randomSeconds);
+#endif
 
             m_StartTime = DateTime.Now;
+        }
+
+        private void SetRandom()
+        {
+            m_Random =
+                m_RandomSeed != 0 ? new Random(m_RandomSeed) : new Random(Guid.NewGuid().GetHashCode());
+        }
+
+        float NextFloat(float min, float max)
+        {
+            return (float)NextDouble(min, max);
+        }
+        double NextDouble(double min, double max)
+        {
+            return min + m_Random.NextDouble() * (max - min);
         }
     }
 }

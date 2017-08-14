@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -37,10 +38,12 @@ namespace SuperLibrary
             try
             {
 #endif
-                while (m_Run && !s_EmergencyAbort)
-                    UpdateLoop();
+            OnStartLoop();
 
-                OnExitLoop();
+            while (m_Run && !s_EmergencyAbort)
+                UpdateLoop();
+
+            OnExitLoop();
 #if !DEBUG
             }
             catch (Exception exception)
@@ -49,6 +52,8 @@ namespace SuperLibrary
             }
 #endif
         }
+
+        protected virtual void OnStartLoop() { }
 
         protected abstract void UpdateLoop();
 
