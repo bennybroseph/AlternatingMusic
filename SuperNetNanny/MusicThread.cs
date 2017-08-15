@@ -30,11 +30,17 @@ namespace SuperNetNanny
 
         private Sound m_SoundSomebody;
 
-        private Sound m_SoundRickRoll;
+        private Sound m_SoundNeverSawItComing;
+        private Sound m_SoundSurpriseAttack;
+        private Sound m_SoundAllEnemiesDefeated;
+
+        private Sound[] m_SoundsMorgana;
+
         private Sound m_SoundInception;
 
         private bool m_ShowStopImage;
-        private bool m_RickRolled;
+        private bool m_NeverSawItComing;
+        private bool m_Defeated;
 
         private Random m_Random;
         private int m_RandomSeed;
@@ -42,7 +48,11 @@ namespace SuperNetNanny
         private DateTime m_StartTime;
         private TimeSpan m_RandomDelay;
 
+        private DateTime m_LastSupriseStartTime;
+        private TimeSpan m_LastSupriseDelay;
+
         private int m_Type;
+
 
         public int type { get => m_Type; set => m_Type = value; }
 
@@ -94,8 +104,20 @@ namespace SuperNetNanny
             var soundPathSomebody = musicPath + "Somebody.wav";
             Audio.LoadSound(soundPathSomebody, out m_SoundSomebody);
 
-            var soundPathRickRoll = musicPath + "NeverGunnaGiveYouUp.wav";
-            Audio.LoadSound(soundPathRickRoll, out m_SoundRickRoll);
+            var soundPathNeverSawItComing = musicPath + "NeverSeeItComing.wav";
+            Audio.LoadSound(soundPathNeverSawItComing, out m_SoundNeverSawItComing);
+
+            var soundPathSurpriseAttack = musicPath + "SurpriseAttack.wav";
+            Audio.LoadSound(soundPathSurpriseAttack, out m_SoundSurpriseAttack);
+
+            var soundPathAllEnemiesDefeated = musicPath + "AllEnemiesDefeated.wav";
+            Audio.LoadSound(soundPathAllEnemiesDefeated, out m_SoundAllEnemiesDefeated);
+
+            var morganaSounds = Directory.GetFiles(musicPath + "Morgana\\");
+
+            m_SoundsMorgana = new Sound[morganaSounds.Length];
+            for (var i = 0; i < morganaSounds.Length; i++)
+                Audio.LoadSound(morganaSounds[i], out m_SoundsMorgana[i]);
 
             var soundPathInception = musicPath + "Inception.wav";
             Audio.LoadSound(soundPathInception, out m_SoundInception);
@@ -146,10 +168,16 @@ namespace SuperNetNanny
                     DateTime.Now >= activityTimeStart && DateTime.Now <= activityTimeEnd)
                 {
                     var processCount = Process.GetProcessesByName("chrome").Length;
-                    if (!m_RickRolled || processCount == 0)
+                    if (!m_NeverSawItComing || processCount == 0)
                     {
+                        SetVolume();
+
+                        var selectedToLead = m_Random.Next(0, 4) == 0;
+                        if (selectedToLead)
+                            Audio.PlaySound(ref m_Channel, m_SoundSurpriseAttack, MODE.DEFAULT, 0);
+
                         Process.Start(
-                            "https://4cdn.hu/kraken/image/upload/s--TglD2Fmf--/w_1160/6xAfr45m0gweCG8Ja.gif");
+                            "http://cdn3.dualshockers.com/wp-content/uploads/2016/08/Hero.jpg");
 
                         // Wait one second
                         Thread.Sleep(1000);
@@ -159,12 +187,38 @@ namespace SuperNetNanny
 
                         SendKeys.SendWait("{F11}");
 
-                        SetVolume();
+                        // Wait one second
+                        Thread.Sleep(1000);
 
                         m_Channel.setPitch(1f);
-                        Audio.PlaySound(ref m_Channel, m_SoundRickRoll);
+                        if (selectedToLead)
+                            Audio.PlaySound(ref m_Channel, m_SoundNeverSawItComing);
 
-                        m_RickRolled = true;
+                        ResetLastSurpriseTimer();
+
+                        m_NeverSawItComing = true;
+                        m_Defeated = false;
+                    }
+                    else if (!m_Defeated && (lunchTimeEnd.Subtract(DateTime.Now) <= new TimeSpan(0, 0, 5) && lunchTimeEnd.Subtract(DateTime.Now) > TimeSpan.Zero ||
+                             activityTimeEnd.Subtract(DateTime.Now) <= new TimeSpan(0, 0, 5) && activityTimeEnd.Subtract(DateTime.Now) > TimeSpan.Zero))
+                    {
+                        Audio.LoadChannel(m_SoundAllEnemiesDefeated, out Channel newChannel);
+
+                        SetVolume();
+                        Audio.PlaySound(ref newChannel, m_SoundAllEnemiesDefeated, MODE.DEFAULT, 0);
+
+                        m_Defeated = true;
+                    }
+                    else if (DateTime.Now >= m_LastSupriseStartTime.Add(m_LastSupriseDelay))
+                    {
+                        var morganaSound = m_SoundsMorgana[m_Random.Next(0, m_SoundsMorgana.Length)];
+
+                        Audio.LoadChannel(morganaSound, out Channel newChannel);
+                        newChannel.setVolume(1.5f);
+
+                        Audio.PlaySound(ref newChannel, morganaSound, MODE.DEFAULT, 0);
+
+                        ResetLastSurpriseTimer();
                     }
                 }
                 else if (DateTime.Now >= m_StartTime.Add(m_RandomDelay))
@@ -177,15 +231,15 @@ namespace SuperNetNanny
                     //    Audio.PlaySound(ref m_Channel, m_SoundB, MODE.DEFAULT, 0);
 
                     Audio.PlaySound(ref m_Channel, m_SoundSomebody, MODE.DEFAULT, 0);
-                    m_Channel.setPitch(NextFloat(0.5f, 1.5f));
+                    m_Channel.setPitch(NextFloat(0.5f, 1.25f));
 
                     ResetTimer();
                 }
-                else if (m_RickRolled)
+                else if (m_NeverSawItComing)
                 {
                     Audio.Stop(m_Channel);
 
-                    m_RickRolled = false;
+                    m_NeverSawItComing = false;
                 }
             }
             else if (DateTime.Now.Hour < 8 || DateTime.Now.Hour > 17)
@@ -243,10 +297,26 @@ namespace SuperNetNanny
 #else
             var randomSeconds = m_Random.Next(0, 5);
 
-            m_RandomDelay = new TimeSpan(0, 0, 0, randomSeconds);
+            m_RandomDelay = new TimeSpan(0, 0, 0, 3 + randomSeconds);
 #endif
 
             m_StartTime = DateTime.Now;
+        }
+
+        private void ResetLastSurpriseTimer()
+        {
+#if !DEBUG
+            var randomSeconds = m_Random.Next(0, 7);
+            var randomMinutes = m_Random.Next(0, 60);
+
+            m_LastSupriseDelay = new TimeSpan(0, 0, 2 + randomMinutes, randomSeconds);
+#else
+            var randomSeconds = m_Random.Next(0, 5);
+
+            m_LastSupriseDelay = new TimeSpan(0, 0, 0, 3 + randomSeconds);
+#endif
+
+            m_LastSupriseStartTime = DateTime.Now;
         }
 
         private void SetRandom()
