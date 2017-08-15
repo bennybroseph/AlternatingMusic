@@ -32,6 +32,7 @@ namespace SuperNetNanny
 
         private Sound m_SoundNeverSawItComing;
         private Sound m_SoundSurpriseAttack;
+        private Sound m_SoundPersonaActivate;
         private Sound m_SoundAllEnemiesDefeated;
 
         private Sound[] m_SoundsMorgana;
@@ -110,6 +111,9 @@ namespace SuperNetNanny
             var soundPathSurpriseAttack = musicPath + "SurpriseAttack.wav";
             Audio.LoadSound(soundPathSurpriseAttack, out m_SoundSurpriseAttack);
 
+            var soundPathPersonaActivate = musicPath + "PersonaActivate.wav";
+            Audio.LoadSound(soundPathPersonaActivate, out m_SoundPersonaActivate);
+
             var soundPathAllEnemiesDefeated = musicPath + "AllEnemiesDefeated.wav";
             Audio.LoadSound(soundPathAllEnemiesDefeated, out m_SoundAllEnemiesDefeated);
 
@@ -133,15 +137,6 @@ namespace SuperNetNanny
 
         protected override void UpdateLoop()
         {
-            if (m_RandomDelay != TimeSpan.Zero)
-                m_MainForm.remainingTimeLabelField.Invoke(
-                    (MethodInvoker)delegate
-                    {
-                        m_MainForm.remainingTimeLabelField
-                        .Text =
-                            m_StartTime.Add(m_RandomDelay).Subtract(DateTime.Now).ToString();
-                    });
-
             // Confirm it's not the weekend
             if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday ||
                 DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
@@ -172,12 +167,10 @@ namespace SuperNetNanny
                     {
                         SetVolume();
 
-                        var selectedToLead = m_Random.Next(0, 4) == 0;
-                        if (selectedToLead)
-                            Audio.PlaySound(ref m_Channel, m_SoundSurpriseAttack, MODE.DEFAULT, 0);
+                        Audio.PlaySound(ref m_Channel, m_SoundSurpriseAttack, MODE.DEFAULT, 0);
 
                         Process.Start(
-                            "http://cdn3.dualshockers.com/wp-content/uploads/2016/08/Hero.jpg");
+                            "https://giant.gfycat.com/EvenWhoppingAlabamamapturtle.gif");
 
                         // Wait one second
                         Thread.Sleep(1000);
@@ -187,12 +180,15 @@ namespace SuperNetNanny
 
                         SendKeys.SendWait("{F11}");
 
-                        // Wait one second
                         Thread.Sleep(1000);
 
+                        Audio.LoadChannel(m_SoundPersonaActivate, out Channel newChannel);
+                        Audio.PlaySound(ref newChannel, m_SoundPersonaActivate, MODE.DEFAULT, 0);
+
+                        Thread.Sleep(500);
+
                         m_Channel.setPitch(1f);
-                        if (selectedToLead)
-                            Audio.PlaySound(ref m_Channel, m_SoundNeverSawItComing);
+                        Audio.PlaySound(ref m_Channel, m_SoundNeverSawItComing, MODE.LOOP_NORMAL);
 
                         ResetLastSurpriseTimer();
 
@@ -220,6 +216,14 @@ namespace SuperNetNanny
 
                         ResetLastSurpriseTimer();
                     }
+
+                    m_MainForm.remainingTimeLabelField.Invoke(
+                        (MethodInvoker)delegate
+                        {
+                            m_MainForm.remainingTimeLabelField
+                                    .Text =
+                                m_LastSupriseStartTime.Add(m_LastSupriseDelay).Subtract(DateTime.Now).ToString();
+                        });
                 }
                 else if (DateTime.Now >= m_StartTime.Add(m_RandomDelay))
                 {
@@ -240,6 +244,16 @@ namespace SuperNetNanny
                     Audio.Stop(m_Channel);
 
                     m_NeverSawItComing = false;
+                }
+                else
+                {
+                    m_MainForm.remainingTimeLabelField.Invoke(
+                        (MethodInvoker)delegate
+                        {
+                            m_MainForm.remainingTimeLabelField
+                                    .Text =
+                                m_StartTime.Add(m_RandomDelay).Subtract(DateTime.Now).ToString();
+                        });
                 }
             }
             else if (DateTime.Now.Hour < 8 || DateTime.Now.Hour > 17)
@@ -306,10 +320,9 @@ namespace SuperNetNanny
         private void ResetLastSurpriseTimer()
         {
 #if !DEBUG
-            var randomSeconds = m_Random.Next(0, 7);
-            var randomMinutes = m_Random.Next(0, 60);
+            var randomSeconds = m_Random.Next(0, 15);
 
-            m_LastSupriseDelay = new TimeSpan(0, 0, 2 + randomMinutes, randomSeconds);
+            m_LastSupriseDelay = new TimeSpan(0, 0, 0, 5 + randomSeconds);
 #else
             var randomSeconds = m_Random.Next(0, 5);
 

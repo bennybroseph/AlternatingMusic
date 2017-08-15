@@ -74,7 +74,6 @@ namespace SuperNetNanny
             channel.setLoopCount(loopCount);
 
             return result;
-
         }
         public static RESULT PlaySound(
             ref Channel channel, Sound sound, MODE mode = MODE.DEFAULT, int loopCount = -1)
